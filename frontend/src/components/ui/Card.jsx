@@ -2,7 +2,7 @@ import { cn } from "../../lib/utils"
 
 const Card = ({ className, ...props }) => (
   <div
-    className={cn("rounded-lg border border-gray-200 bg-white text-gray-900 shadow-sm", className)}
+    className={cn("rounded-lg border border-slate-800 bg-slate-900/80 text-slate-100 shadow-lg shadow-black/20", className)}
     {...props}
   />
 )
@@ -16,7 +16,7 @@ const CardTitle = ({ className, ...props }) => (
 )
 
 const CardDescription = ({ className, ...props }) => (
-  <p className={cn("text-sm text-gray-500", className)} {...props} />
+  <p className={cn("text-sm text-slate-400", className)} {...props} />
 )
 
 const CardContent = ({ className, ...props }) => (

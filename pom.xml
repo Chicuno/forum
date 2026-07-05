@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fernandez</groupId>
-	<artifactId>foro-hub</artifactId>
+	<artifactId>Forum</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>foro-hub</name>
-	<description>API rest con Spring Boot</description>
+	<name>Forum</name>
+	<description>API REST para foro de discusión con autenticación JWT, gestión de usuarios, preguntas y respuestas. Incluye frontend desplegado para pruebas.</description>
 	<url/>
 	<licenses>
 		<license/>

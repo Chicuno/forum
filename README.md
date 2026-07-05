@@ -1,5 +1,5 @@
-<h1 align="center">Foro Hub</h1>
-<h2 align="center">API Rest para el manejo de un foro</h2>
+<h1 align="center">Forum</h1>
+<h2 align="center">API REST para foro de discusión con autenticación JWT, gestión de usuarios, preguntas y respuestas. Incluye frontend desplegado para pruebas.</h2>
 
 Éste es un proyecto de práctica en mi formación Back-end para manejar las funcionalidades CRUD de un foro, incluyendo:
 

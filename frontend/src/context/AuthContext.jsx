@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
             try {
               const response = await usuariosAPI.listar(0, 100)
               const usuarioEncontrado = response.content?.find(
-                (usuario) => usuario.nombreUsuario === username
+                (usuario) => usuario.nombreUsuario?.toLowerCase() === username?.toLowerCase()
               )
 
               if (usuarioEncontrado?.nombre) {
@@ -66,10 +66,12 @@ export const AuthProvider = ({ children }) => {
       const payload = JSON.parse(atob(data.token.split('.')[1]))
       let nombre = nombreUsuario
 
+      localStorage.setItem('token', data.token)
+
       try {
         const response = await usuariosAPI.listar(0, 100)
         const usuarioEncontrado = response.content?.find(
-          (usuario) => usuario.nombreUsuario === nombreUsuario
+          (usuario) => usuario.nombreUsuario?.toLowerCase() === nombreUsuario?.toLowerCase()
         )
 
         if (usuarioEncontrado?.nombre) {
@@ -80,7 +82,6 @@ export const AuthProvider = ({ children }) => {
       }
 
       const user = { nombreUsuario, nombre, id: payload.userId }
-      localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(user))
       setUser(user)
       return data

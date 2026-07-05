@@ -14,17 +14,17 @@ const Layout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="border-b border-gray-200 bg-white">
+    <div className="min-h-screen bg-transparent text-foreground">
+      <nav className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center space-x-2 text-2xl font-bold text-blue-600">
+            <Link to="/" className="flex items-center space-x-2 text-2xl font-bold text-sky-400">
               <MessageSquare className="h-8 w-8" />
-              <span>Foro Hub</span>
+              <span>Forum</span>
             </Link>
             
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-slate-300">
                 ¡Hola, {displayName}!
               </div>
               <div className="flex items-center space-x-2">

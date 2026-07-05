@@ -1,6 +1,6 @@
-# Foro Hub Frontend
+# Forum Frontend
 
-Frontend moderno para la API de Foro Hub, construido con React, Vite, TailwindCSS y componentes UI personalizados.
+Frontend moderno para la API de Forum, construido con React, Vite, TailwindCSS y componentes UI personalizados.
 
 ## 🚀 Características
 
@@ -167,4 +167,4 @@ proxy: {
 
 ## 📄 Licencia
 
-Este proyecto es parte de Foro Hub.
+Este proyecto es parte de Forum.

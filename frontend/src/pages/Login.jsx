@@ -36,8 +36,8 @@ const Login = () => {
           <div className="flex justify-center mb-4">
             <MessageSquare className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle className="text-2xl">Iniciar Sesión</CardTitle>
-          <CardDescription>Ingresa tus credenciales para acceder al foro</CardDescription>
+          <CardTitle className="text-2xl">Forum</CardTitle>
+          <CardDescription>Iniciar sesión en Forum</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">

@@ -23,13 +23,13 @@ public class SpringDocConfiguration {
                         .addSecuritySchemes("bearer-key",
                                 new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .info(new Info()
-                        .title("Foro Hub")
-                        .description("API Rest de la aplicación Foro Hub, que contiene las funcionalidades CRUD de usuarios, cursos, tópicos y respuestas")
+                        .title("Forum")
+                        .description("API REST para foro de discusión con autenticación JWT, gestión de usuarios, preguntas y respuestas. Incluye frontend desplegado para pruebas.")
                         .contact(new Contact()
                                 .name("Equipo Backend")
-                                .email("backend@foro.hub"))
+                                .email("backend@forum.local"))
                         .license(new License()
                                 .name("Apache 2.0")
-                                .url("http://foro-hub/licencia")));
+                                .url("http://forum/licencia")));
     }
 }
