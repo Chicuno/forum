@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ import jakarta.transaction.Transactional;
 import net.datafaker.Faker;
 
 @Component
+@Profile("demo")
 public class DataSeeder implements CommandLineRunner {
 
         private final UsuarioRepository usuarioRepository;
@@ -86,8 +88,7 @@ public class DataSeeder implements CommandLineRunner {
 
                 admin.setNombreUsuario("admin");
 
-                admin.setContrasena(
-                                "$2a$10$YuTRjFNqRNbsEyxXGnSFfOPcuoASR3.1CwLRQvdm06UpZ/DmgcMjG");
+                admin.setContrasena(passwordEncoder.encode("123456"));
 
                 admin.setPerfil(Perfil.ADMINISTRADOR);
 
