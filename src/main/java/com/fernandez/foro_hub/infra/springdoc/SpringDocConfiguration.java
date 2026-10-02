@@ -24,12 +24,13 @@ public class SpringDocConfiguration {
                                 new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .info(new Info()
                         .title("Forum")
-                        .description("API REST para foro de discusión con autenticación JWT, gestión de usuarios, preguntas y respuestas. Incluye frontend desplegado para pruebas.")
+                        .version("1.0")
+                        .description("API REST para foro de discusión con autenticación JWT, gestión de usuarios, preguntas y respuestas.")
                         .contact(new Contact()
-                                .name("Equipo Backend")
-                                .email("backend@forum.local"))
+                                .name("Chicuno")
+                                .email("computacionyoficina@hotmail.com"))
                         .license(new License()
-                                .name("Apache 2.0")
-                                .url("http://forum/licencia")));
+                                .name("MIT License")
+                                .url("https://opensource.org/licenses/MIT")));
     }
 }

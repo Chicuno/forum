@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=forum
+      - POSTGRES_USER=forum
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U forum -d forum"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+    environment:
+      - DB_URL=jdbc:postgresql://postgres:5432/forum
+      - DB_USERNAME=forum
+      - DB_PASSWORD=${POSTGRES_PASSWORD:?Define POSTGRES_PASSWORD in .env}
+      - JWT_SECRET=${JWT_SECRET:?Define JWT_SECRET in .env}      
+      # ===================================================================
+      # CONFIGURACIÓN DE PERFILES DE SPRING
+
+      # ACTIVAR MODO DEMO (Puebla la base de datos con datos de prueba):
+      - SPRING_PROFILES_ACTIVE=demo      
+      # MODO PRODUCCIÓN / LIMPIO (Comenta la línea anterior)
+      # ===================================================================
+    depends_on:
+      postgres:
+        condition: service_healthy
+    expose:
+      - "8080"
+
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+volumes:
+  postgres_data:
