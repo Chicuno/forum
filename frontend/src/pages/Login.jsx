@@ -23,7 +23,7 @@ const Login = () => {
       await login(nombreUsuario, contrasena)
       navigate('/')
     } catch (err) {
-      setError('Usuario o contraseña incorrectos')
+      setError(err.message || 'Usuario o contraseña incorrectos')
     } finally {
       setLoading(false)
     }

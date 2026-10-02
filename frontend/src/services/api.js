@@ -35,8 +35,19 @@ api.interceptors.response.use(
 
 export const authAPI = {
   login: async (nombreUsuario, contrasena) => {
-    const response = await api.post('/login', { nombreUsuario, contrasena })
-    return response.data
+    try {
+      const response = await api.post('/login', { nombreUsuario, contrasena })
+      return response.data
+    } catch (error) {
+      const isNetworkError = error.code === 'ERR_NETWORK' || error.code === 'ECONNABORTED' || !error.response
+      const isServerError = error.response?.status >= 500
+      const errorMessage = isNetworkError || isServerError
+        ? 'No se pudo conectar al servidor. Intenta más tarde.'
+        : error.response?.status === 401
+          ? 'Usuario o contraseña incorrectos'
+          : error.response?.data?.message || 'Usuario o contraseña incorrectos'
+      throw new Error(errorMessage)
+    }
   },
 }
 

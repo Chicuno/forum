@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import { preguntasAPI, respuestasAPI } from '../services/api'
 import Button from '../components/ui/Button'
 import Input from '../components/ui/Input'
@@ -10,6 +11,7 @@ import { User, Clock, MessageSquare, Send, CheckCircle } from 'lucide-react'
 
 const PreguntaDetail = () => {
   const { id } = useParams()
+  const { user } = useAuth()
   const [pregunta, setPregunta] = useState(null)
   const [respuestas, setRespuestas] = useState([])
   const [loading, setLoading] = useState(true)
@@ -39,13 +41,17 @@ const PreguntaDetail = () => {
   const handleSubmitRespuesta = async (e) => {
     e.preventDefault()
     if (!nuevaRespuesta.trim()) return
+    if (!user?.id) {
+      console.error('No hay un usuario autenticado para registrar la respuesta')
+      return
+    }
 
     setEnviando(true)
     try {
       const respuesta = await respuestasAPI.crear({
         mensaje: nuevaRespuesta,
-        preguntaId: id,
-        autorId: pregunta.autorId
+        preguntaId: Number(id),
+        autorId: user.id
       })
       setRespuestas([...respuestas, respuesta])
       setNuevaRespuesta('')
