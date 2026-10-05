@@ -7,11 +7,12 @@ COPY mvnw pom.xml ./
 RUN chmod +x mvnw && ./mvnw dependency:go-offline
 
 COPY src/ src/
-RUN ./mvnw package -DskipTests
+RUN ./mvnw package -DskipTests && \
+    cp target/*.jar target/app.jar 2>/dev/null || true
 
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /workspace/target/Forum-*.jar app.jar
+COPY --from=build /workspace/target/app.jar app.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
