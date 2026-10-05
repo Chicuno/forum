@@ -7,8 +7,7 @@ COPY mvnw pom.xml ./
 RUN chmod +x mvnw && ./mvnw dependency:go-offline
 
 COPY src/ src/
-RUN ./mvnw package -DskipTests && \
-    cp target/*.jar target/app.jar 2>/dev/null || true
+RUN ./mvnw package -DskipTests
 
 FROM eclipse-temurin:17-jre
 WORKDIR /app
