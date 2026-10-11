@@ -1,0 +1,41 @@
+worker_processes auto;
+error_log /dev/stderr warn;
+pid /tmp/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    access_log /dev/stdout;
+
+    sendfile on;
+    keepalive_timeout 65;
+    client_max_body_size 10m;
+
+    # Render inyecta el puerto en $PORT; aquí lo usamos
+    server {
+        listen ${PORT};
+        server_name _;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        # API -> Spring Boot quitando el prefijo /api
+        location /api/ {
+            proxy_pass http://127.0.0.1:8080/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # SPA: cualquier otra ruta sirve index.html
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+    }
+}
