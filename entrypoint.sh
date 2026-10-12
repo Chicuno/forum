@@ -8,8 +8,8 @@ export PORT
 # Genera la config de nginx sustituyendo ${PORT}
 envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 
-# Arranca Spring Boot en background
-java -jar /app/app.jar &
+# Arranca Spring Boot SIEMPRE en 8080, ignorando el $PORT de Render
+SERVER_PORT=8080 java -jar /app/app.jar &
 BACKEND_PID=$!
 
 # Si el backend muere, tumba nginx y sale
