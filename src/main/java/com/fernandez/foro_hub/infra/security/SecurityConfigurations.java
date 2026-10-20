@@ -57,13 +57,13 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/preguntas/{id}").hasAnyRole("ADMINISTRADOR", "PROFESOR", "ALUMNO")
                         .requestMatchers(HttpMethod.GET, "/preguntas/{id}/respuestas").hasAnyRole("ADMINISTRADOR", "PROFESOR", "ALUMNO")
                         .requestMatchers(HttpMethod.PUT, "/preguntas/{id}").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/preguntas/{id}").hasAnyRole("ADMIN", "PROFESOR")
+                        .requestMatchers(HttpMethod.DELETE, "/preguntas/{id}").authenticated()
 
                         .requestMatchers(HttpMethod.POST, "/respuestas").hasAnyRole("ADMINISTRADOR", "PROFESOR", "ALUMNO")
                         .requestMatchers(HttpMethod.GET, "/respuestas").hasAnyRole("ADMINISTRADOR", "PROFESOR", "ALUMNO")
                         .requestMatchers(HttpMethod.GET, "/respuestas/{id}").hasAnyRole("ADMINISTRADOR", "PROFESOR", "ALUMNO")
                         .requestMatchers(HttpMethod.PUT, "/respuestas/{id}").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/respuestas").hasAnyRole("ADMINISTRADOR", "PROFESOR")
+                        .requestMatchers(HttpMethod.DELETE, "/respuestas/{id}").authenticated()
 
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated())

@@ -69,6 +69,7 @@ public class PreguntaController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@securityService.puedeEliminarPregunta(authentication, #id)")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         service.eliminar(id);
         return ResponseEntity.noContent().build();

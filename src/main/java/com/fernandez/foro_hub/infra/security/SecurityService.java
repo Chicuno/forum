@@ -30,6 +30,19 @@ public class SecurityService {
                 && esPropietarioDeLaPregunta(preguntaId, authentication);
     }
 
+    public boolean puedeEliminarPregunta(Authentication authentication, Long preguntaId) {
+        if (authentication == null) return false;
+
+        boolean isAdminOrProfesor = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMINISTRADOR") ||
+                        auth.getAuthority().equals("ROLE_PROFESOR"));
+
+        return isAdminOrProfesor ||
+                (authentication.getAuthorities().stream()
+                        .anyMatch(auth -> auth.getAuthority().equals("ROLE_ALUMNO"))
+                        && esPropietarioDeLaPregunta(preguntaId, authentication));
+    }
+
     public boolean esPropietarioDeLaPregunta(Long preguntaId, Authentication authentication) {
         if (authentication == null || preguntaId == null) return false;
         String username = authentication.getName();
@@ -65,7 +78,10 @@ public class SecurityService {
                 .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMINISTRADOR") ||
                         auth.getAuthority().equals("ROLE_PROFESOR"));
 
-        return isAdminOrProfesor;
+        return isAdminOrProfesor ||
+                (authentication.getAuthorities().stream()
+                        .anyMatch(auth -> auth.getAuthority().equals("ROLE_ALUMNO"))
+                        && esPropietarioDeLaRespuesta(respuestaId, authentication));
     }
 
     public boolean puedeMarcarSolucion(Authentication authentication, Long respuestaId) {
