@@ -66,6 +66,14 @@ public class Pregunta {
         this.activo = false;
     }
 
+    public void marcarComoResuelta() {
+        this.status = Status.RESUELTA;
+    }
+
+    public void marcarComoSpam() {
+        this.status = Status.SPAM;
+    }
+
     @Override
     public boolean equals(Object o) {
     if (this == o) return true;

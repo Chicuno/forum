@@ -77,5 +77,6 @@ public class RespuestaService {
             throw new ValidacionException("Id de la respuesta informada no existe");
         }
         respuesta.marcarComoSolucion();
+        respuesta.getPregunta().marcarComoResuelta();
     }
 }

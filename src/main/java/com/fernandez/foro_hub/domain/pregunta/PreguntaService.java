@@ -61,6 +61,20 @@ public class PreguntaService {
         pregunta.eliminar();
     }
 
+    @Transactional
+    public void marcarComoResuelta(Long id) {
+        var pregunta = preguntaRepository.findByIdAndActivoTrue(id)
+                .orElseThrow(() -> new ValidacionException("Id del pregunta informado no existe"));
+        pregunta.marcarComoResuelta();
+    }
+
+    @Transactional
+    public void marcarComoSpam(Long id) {
+        var pregunta = preguntaRepository.findByIdAndActivoTrue(id)
+                .orElseThrow(() -> new ValidacionException("Id del pregunta informado no existe"));
+        pregunta.marcarComoSpam();
+    }
+
     @Transactional(readOnly = true)
     public Page<DatosListaPregunta> listar(Pageable paginacion) {
         return preguntaRepository.findByActivoTrue(paginacion)

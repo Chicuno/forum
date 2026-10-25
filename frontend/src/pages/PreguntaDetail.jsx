@@ -17,6 +17,8 @@ const PreguntaDetail = () => {
   const [loading, setLoading] = useState(true)
   const [nuevaRespuesta, setNuevaRespuesta] = useState('')
   const [enviando, setEnviando] = useState(false)
+  const [marcandoSolucionId, setMarcandoSolucionId] = useState(null)
+  const [errorSolucion, setErrorSolucion] = useState('')
 
   useEffect(() => {
     loadPregunta()
@@ -59,6 +61,22 @@ const PreguntaDetail = () => {
       console.error('Error al crear respuesta:', error)
     } finally {
       setEnviando(false)
+    }
+  }
+
+  const handleMarcarSolucion = async (respuestaId) => {
+    setMarcandoSolucionId(respuestaId)
+    setErrorSolucion('')
+    try {
+      await respuestasAPI.marcarComoSolucion(respuestaId)
+      setPregunta((actual) => ({ ...actual, status: 'RESUELTA' }))
+      setRespuestas((actuales) => actuales.map((respuesta) => (
+        respuesta.id === respuestaId ? { ...respuesta, solucion: true } : respuesta
+      )))
+    } catch (error) {
+      setErrorSolucion(error.response?.data?.message || 'No se pudo marcar la respuesta como solución.')
+    } finally {
+      setMarcandoSolucionId(null)
     }
   }
 
@@ -142,6 +160,9 @@ const PreguntaDetail = () => {
 
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Respuestas ({respuestas.length})</h2>
+        {errorSolucion && (
+          <p role="alert" className="text-sm text-red-600">{errorSolucion}</p>
+        )}
 
         {respuestas.length === 0 ? (
           <Card>
@@ -171,6 +192,16 @@ const PreguntaDetail = () => {
                   <Clock className="h-3 w-3" />
                   <span>{formatDate(respuesta.fechaCreacion)}</span>
                 </div>
+                {user?.id === pregunta.autorId && pregunta.status !== 'RESUELTA' && !respuesta.solucion && (
+                  <Button
+                    className="mt-4"
+                    onClick={() => handleMarcarSolucion(respuesta.id)}
+                    disabled={marcandoSolucionId !== null}
+                  >
+                    <CheckCircle className="h-4 w-4 mr-2" />
+                    {marcandoSolucionId === respuesta.id ? 'Marcando...' : 'Marcar como solución'}
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))

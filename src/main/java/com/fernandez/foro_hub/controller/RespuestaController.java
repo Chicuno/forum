@@ -53,7 +53,7 @@ public class RespuestaController {
         return ResponseEntity.ok(page);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @PreAuthorize("@securityService.puedeEditarRespuesta(authentication, #datos.id())")
     public ResponseEntity<DatosDetalleRespuesta> actualizar(@RequestBody @Valid DatosActualizacionRespuesta datos) {
         var respuesta = service.actualizar(datos);

@@ -74,4 +74,18 @@ public class PreguntaController {
         service.eliminar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/resuelta")
+    @PreAuthorize("hasAnyRole('PROFESOR', 'ADMINISTRADOR')")
+    public ResponseEntity<Void> marcarComoResuelta(@PathVariable Long id) {
+        service.marcarComoResuelta(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/spam")
+    @PreAuthorize("hasAnyRole('PROFESOR', 'ADMINISTRADOR')")
+    public ResponseEntity<Void> marcarComoSpam(@PathVariable Long id) {
+        service.marcarComoSpam(id);
+        return ResponseEntity.noContent().build();
+    }
 }

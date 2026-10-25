@@ -113,6 +113,9 @@ export const respuestasAPI = {
     const response = await api.put('/respuestas', datos)
     return response.data
   },
+  marcarComoSolucion: async (id) => {
+    await api.patch(`/respuestas/${id}/solucion`)
+  },
 }
 
 export const usuariosAPI = {
