@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,7 +20,6 @@ public class RespuestaController {
     @Autowired
     private RespuestaRepository repository;
 
-    @Transactional
     @PostMapping
     public ResponseEntity<DatosDetalleRespuesta> registrar(@RequestBody @Valid DatosRegistroRespuesta datos, UriComponentsBuilder uriComponentsBuilder) {
         var detallesRespuesta = service.crear(datos);
@@ -31,7 +29,6 @@ public class RespuestaController {
     }
 
     @GetMapping
-    @Transactional(readOnly = true)
     public ResponseEntity<Page<DatosDetalleRespuesta>> listar(@PageableDefault(size=10, sort={"fechaCreacion"}) Pageable paginacion){
 
         var page = repository.findAll(paginacion)
@@ -40,14 +37,12 @@ public class RespuestaController {
     }
 
     @GetMapping("/{id}")
-    @Transactional(readOnly = true)
     public ResponseEntity<DatosDetalleRespuesta> detallar(@PathVariable Long id) {
         var respuesta = service.detallar(id);
         return ResponseEntity.ok(respuesta);
     }
 
     @GetMapping("/pregunta/{preguntaId}")
-    @Transactional(readOnly = true)
     public ResponseEntity<Page<DatosDetalleRespuesta>> listarPorPregunta(@PathVariable Long preguntaId, @PageableDefault(size=10, sort={"fechaCreacion"}) Pageable paginacion){
         var page = service.listarPorPregunta(preguntaId, paginacion);
         return ResponseEntity.ok(page);
@@ -62,7 +57,6 @@ public class RespuestaController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("@securityService.puedeEliminarRespuesta(authentication, #id)")
-    @Transactional
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         service.eliminar(id);
         return ResponseEntity.noContent().build();
@@ -70,7 +64,6 @@ public class RespuestaController {
 
     @PatchMapping("/{id}/solucion")
     @PreAuthorize("@securityService.puedeMarcarSolucion(authentication, #id)")
-    @Transactional
     public ResponseEntity<Void> marcarComoSolucion(@PathVariable Long id) {
         service.marcarComoSolucion(id);
         return ResponseEntity.noContent().build();

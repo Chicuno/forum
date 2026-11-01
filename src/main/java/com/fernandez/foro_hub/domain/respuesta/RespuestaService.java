@@ -13,23 +13,22 @@ import java.time.LocalDateTime;
 
 @Service
 public class RespuestaService {
-    @Autowired private PreguntaRepository preguntaRepository;
-    @Autowired private UsuarioRepository usuarioRepository;
-    @Autowired private RespuestaRepository respuestaRepository;
+    @Autowired
+    private PreguntaRepository preguntaRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private RespuestaRepository respuestaRepository;
 
     @Transactional
     public DatosDetalleRespuesta crear(DatosRegistroRespuesta datos) {
 
-        if (!preguntaRepository.existsById(datos.preguntaId())) {
-            throw new ValidacionException("No existe un curso con el id informado");
-        }
-
-        if (datos.autorId() != null && !usuarioRepository.existsById(datos.autorId())) {
-            throw new ValidacionException("No existe un usuario con el id informado");
-        }
-        var pregunta = preguntaRepository.findById(datos.preguntaId()).get();
-        var usuario = usuarioRepository.findById(datos.autorId()).get();
+        var pregunta = preguntaRepository.findById(datos.preguntaId())
+                .orElseThrow(() -> new ValidacionException("No existe una pregunta con el id informado"));
+        var usuario = usuarioRepository.findById(datos.autorId())
+                .orElseThrow(() -> new ValidacionException("No existe un usuario con el id informado"));
         var respuesta = new Respuesta(null, datos.mensaje(), pregunta, LocalDateTime.now(), usuario, false, true);
+        
         pregunta.agregarRespuesta(respuesta);
         usuario.agregarRespuesta(respuesta);
         respuestaRepository.save(respuesta);
@@ -39,7 +38,7 @@ public class RespuestaService {
     @Transactional
     public Respuesta actualizar(DatosActualizacionRespuesta datos) {
         if (!respuestaRepository.existsById(datos.id())) {
-            throw new ValidacionException("Id de la respuesta informada no existe");
+            throw new ValidacionException("El id de la respuesta informada no existe");
         }
         var respuesta = respuestaRepository.getReferenceById(datos.id());
         respuesta.actualizarInformaciones(datos);
@@ -48,10 +47,8 @@ public class RespuestaService {
 
     @Transactional(readOnly = true)
     public DatosDetalleRespuesta detallar(Long id) {
-        var respuesta = respuestaRepository.findByIdAndActivoTrue(id);
-        if (respuesta == null) {
-            throw new ValidacionException("Id de la respuesta informada no existe");
-        }
+        var respuesta = respuestaRepository.findByIdAndActivoTrue(id)
+                .orElseThrow(() -> new ValidacionException("El id de la respuesta informada no existe"));
         return new DatosDetalleRespuesta(respuesta);
     }
 
@@ -63,19 +60,15 @@ public class RespuestaService {
 
     @Transactional
     public void eliminar(Long id) {
-        var respuesta = respuestaRepository.findByIdAndActivoTrue(id);
-        if (respuesta == null) {
-            throw new ValidacionException("Id de la respuesta informada no existe");
-        }
+        var respuesta = respuestaRepository.findByIdAndActivoTrue(id)
+                .orElseThrow(() -> new ValidacionException("El id de la respuesta informada no existe"));
         respuesta.eliminar();
     }
 
     @Transactional
     public void marcarComoSolucion(Long id) {
-        var respuesta = respuestaRepository.findByIdAndActivoTrue(id);
-        if (respuesta == null) {
-            throw new ValidacionException("Id de la respuesta informada no existe");
-        }
+        var respuesta = respuestaRepository.findByIdAndActivoTrue(id)
+                .orElseThrow(() -> new ValidacionException("El id de la respuesta informada no existe"));
         respuesta.marcarComoSolucion();
         respuesta.getPregunta().marcarComoResuelta();
     }

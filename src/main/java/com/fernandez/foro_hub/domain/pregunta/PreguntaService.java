@@ -31,15 +31,14 @@ public class PreguntaService {
         if (datos.idCurso() == null) {
             throw new ValidacionException("El id del curso es obligatorio");
         }
-        if (!cursoRepository.existsById(datos.idCurso())) {
-            throw new ValidacionException("No existe un curso con el id informado");
-        }
-        if (!usuarioRepository.existsById(datos.idUsuario())) {
-            throw new ValidacionException("No existe un usuario con el id informado");
-        }
-        var curso = cursoRepository.findById(datos.idCurso()).orElseThrow(() -> new ValidacionException("No existe un curso con el id informado"));
-        var usuario = usuarioRepository.findById(datos.idUsuario()).orElseThrow(() -> new ValidacionException("No existe un usuario con el id informado"));
-        var pregunta = new Pregunta(null, datos.titulo(), datos.mensaje(), LocalDateTime.now(), Status.SIN_RESPUESTA, usuario, curso, new ArrayList<>(), true);
+
+        var curso = cursoRepository.findById(datos.idCurso())
+                .orElseThrow(() -> new ValidacionException("No existe un curso con el id informado"));
+        var usuario = usuarioRepository.findById(datos.idUsuario())
+                .orElseThrow(() -> new ValidacionException("No existe un usuario con el id informado"));
+
+        var pregunta = new Pregunta(null, datos.titulo(), datos.mensaje(), LocalDateTime.now(), Status.SIN_RESPUESTA,
+                usuario, curso, new ArrayList<>(), true);
         usuario.agregarPregunta(pregunta);
         curso.agregarPregunta(pregunta);
         preguntaRepository.save(pregunta);
@@ -49,7 +48,7 @@ public class PreguntaService {
     @Transactional
     public DatosDetallePregunta actualizar(DatosActualizacionPregunta datos) {
         var pregunta = preguntaRepository.findByIdAndActivoTrue(datos.id())
-                .orElseThrow(() -> new ValidacionException("Id del pregunta informado no existe"));
+                .orElseThrow(() -> new ValidacionException("Id de la pregunta informada no existe"));
         pregunta.actualizarInformaciones(datos);
         return new DatosDetallePregunta(pregunta);
     }
@@ -57,21 +56,14 @@ public class PreguntaService {
     @Transactional
     public void eliminar(Long id) {
         var pregunta = preguntaRepository.findByIdAndActivoTrue(id)
-                .orElseThrow(() -> new ValidacionException("Id del pregunta informado no existe"));
+                .orElseThrow(() -> new ValidacionException("El id de la pregunta informada no existe"));
         pregunta.eliminar();
-    }
-
-    @Transactional
-    public void marcarComoResuelta(Long id) {
-        var pregunta = preguntaRepository.findByIdAndActivoTrue(id)
-                .orElseThrow(() -> new ValidacionException("Id del pregunta informado no existe"));
-        pregunta.marcarComoResuelta();
     }
 
     @Transactional
     public void marcarComoSpam(Long id) {
         var pregunta = preguntaRepository.findByIdAndActivoTrue(id)
-                .orElseThrow(() -> new ValidacionException("Id del pregunta informado no existe"));
+                .orElseThrow(() -> new ValidacionException("El id de la pregunta informada no existe"));
         pregunta.marcarComoSpam();
     }
 
@@ -90,7 +82,7 @@ public class PreguntaService {
     @Transactional(readOnly = true)
     public DatosDetallePregunta detallar(Long id) {
         var pregunta = preguntaRepository.findByIdAndActivoTrue(id)
-                .orElseThrow(() -> new ValidacionException("Id del pregunta informado no existe"));
+                .orElseThrow(() -> new ValidacionException("Id de la pregunta informada no existe"));
         return new DatosDetallePregunta(pregunta);
     }
 }

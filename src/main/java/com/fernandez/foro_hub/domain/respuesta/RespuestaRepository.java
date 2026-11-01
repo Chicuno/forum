@@ -3,10 +3,11 @@ package com.fernandez.foro_hub.domain.respuesta;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
 public interface RespuestaRepository extends JpaRepository<Respuesta, Long> {
     boolean existsByIdAndAutorNombreUsuario(Long respuestaId, String username);
     boolean existsByIdAndAutorNombreUsuarioAndActivoTrue(Long respuestaId, String username);
     Page<Respuesta> findByPreguntaIdAndActivoTrue(Long preguntaId, Pageable paginacion);
-    Respuesta findByIdAndActivoTrue(Long id);
+    Optional<Respuesta> findByIdAndActivoTrue(Long id);
 }

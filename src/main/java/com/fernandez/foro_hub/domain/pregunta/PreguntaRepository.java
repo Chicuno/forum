@@ -3,7 +3,6 @@ package com.fernandez.foro_hub.domain.pregunta;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
 
 public interface PreguntaRepository extends JpaRepository<Pregunta, Long> {
