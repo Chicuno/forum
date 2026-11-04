@@ -258,6 +258,16 @@ frontend/src/
 ```
 ---
 
+## Próximos pasos
+- [x] Test unitario de entidad (`PreguntaTest` — marcar como resuelta y como spam)
+- [ ] Completar tests de entidad (`Pregunta`, `Respuesta`, `Usuario`, `Curso`)
+- [ ] Tests unitarios de servicios con Mockito
+- [ ] Tests de integración con Testcontainers
+- [ ] Tests de controllers con `@WebMvcTest` + MockMvc
+- [ ] Tests de frontend con Vitest + Testing Library
+
+---
+
 ## Licencia
 
 Forum tiene Licencia MIT tal como se indica en el archivo [LICENSE](LICENSE).
